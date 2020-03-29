@@ -25,14 +25,19 @@ export default function Register(){
       city,
       uf,
     }
-    try{
+    console.log (data);
+    
+
+       try{
       const response = await api.post('ongs',data);
 
       alert(`Seu ID de acesso: ${response.data.id}`);
       history.push('/')
     }catch(err){
-      alert('Erro no envio de dados.');
-    }
+      const retornoErro = err.response.data
+      console.log(retornoErro)
+      alert(`Erro no envio de dados: Preencha corretamente os campos "${retornoErro.message}. "`);
+    }  
   }
 
   return (

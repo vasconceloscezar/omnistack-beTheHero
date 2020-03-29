@@ -12,19 +12,23 @@ export default function NewIncident(){
   const [description,setDescription] = useState('');
   const [value,setValue] = useState('');
   const ongId = localStorage.getItem('ongId');
+  
 
   async function handleNewIncident(e){
-      e.preventDefault();
+    e.preventDefault();
+    
+    console.log(value)
+
     const data = {
       title,
       description,
       value,
     };
 
-    console.log('dados' +data)
+    console.log('dados são ' +data)
 
     try{
-       await api.post('incidents',data,{
+    await api.post('incidents',data,{
           headers:{
             Authorization: ongId 
           }
@@ -33,7 +37,8 @@ export default function NewIncident(){
         alert('Caso Cadastrado.')
         history.push('/profile');
     }catch(err){
-      alert('Erro ao cadastrar novo caso, tente novamente...')
+      console.log(err.dados)
+  alert(`Erro ao cadastrar novo caso, verifique todos os campos e tente novamente...`)
     }
 };
   return(
@@ -59,10 +64,12 @@ export default function NewIncident(){
           placeholder="Descrição do caso"
           value={description}
           onChange={e => setDescription(e.target.value)}/>
+
+
           <input 
           placeholder="Valor em R$"
           value={value}
-          onChange={e => setValue(e.target.value)}/>
+          onChange={e => setValue(e.target.value.replace(',','.'))}/>
 
           <button className="button" type="submit">Cadastrar</button>
         </form>
